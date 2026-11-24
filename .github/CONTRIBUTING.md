@@ -20,11 +20,9 @@ If possible, you can add another additional context like how this feature can be
 
 ## Open a PR for Bugfix or Feature
 
-### Local Development with Examples
+### Local Development
 
-To run SWR locally, you can start it with any example in the `examples` folder. You need to set up the example and run the command in the root directory for overriding SWR and its dependencies to local assets.
-
-First of all, build SWR assets
+First of all, install dependencies and build SWR assets in watch mode:
 
 ```sh
 corepack enable
@@ -33,21 +31,24 @@ corepack pnpm install
 pnpm watch
 ```
 
-Install dependency of the target example, for instance `examples/basic`:
-
-
-```sh
-# by default it will run next dev for the example
-pnpm next dev examples/basic
-```
-
-All examples are built with Next.js, so Next.js commands are all supported:
+To try your changes in a real Next.js app, run the e2e site in another terminal. It is a workspace package (`test/e2e/site`) with its own Next.js, installed by the step above, and it depends on `swr: workspace:*`, so it picks up the assets rebuilt by `pnpm watch`:
 
 ```sh
-# if you want to build and start
-pnpm next build examples/basic
-pnpm next start examples/basic
+# http://localhost:4000
+pnpm dev:e2e
 ```
+
+### Before Opening a PR
+
+Run the same checks as CI (`.github/workflows/test.yml`):
+
+```sh
+pnpm build
+pnpm run-all-checks
+pnpm test
+pnpm test:build
+```
+
 ## Update Documentation
 
 To update the [SWR Documentation](https://swr.vercel.app), you can contribute to the [website repository](https://github.com/vercel/swr-site).
